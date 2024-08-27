@@ -1,23 +1,40 @@
-<?php
+<?php namespace App\Controllers;
 
+use App\Models\PublicModel;
+use CodeIgniter\Controller;
 
-class Profile extends CI_Controller
+class Profile extends BaseController
 {
-  public function __construct()
-  {
-    parent::__construct();
-    $this->load->model('Public_model');
-    is_logged_in();
-  }
-  public function index()
-  {
-    $data['title'] = 'My Profile';
-    $data['account'] = $this->Public_model->getAllEmployeeData($this->session->userdata['username']);
+    protected $publicModel;
+    protected $session;
 
-    $this->load->view('templates/header', $data);
-    $this->load->view('templates/sidebar');
-    $this->load->view('templates/topbar');
-    $this->load->view('profile/index', $data);
-    $this->load->view('templates/footer');
-  }
+    public function __construct()
+    {
+        // Initialize session service
+        $this->session = \Config\Services::session();
+
+        // Load the PublicModel
+        $this->publicModel = new PublicModel();
+
+        // Check if user is logged in
+        if (!$this->session->get('username')) {
+            return redirect()->to('/login'); // Redirect to login if not logged in
+        }
+    }
+
+    public function index()
+    {
+        // Prepare data
+        $data = [
+            'title' => 'My Profile',
+            'account' => $this->publicModel->getAllEmployeeData($this->session->get('username'))
+        ];
+
+        // Render views
+        echo view('templates/header', $data);
+        echo view('templates/sidebar');
+        echo view('templates/topbar');
+        echo view('profile/index', $data);
+        echo view('templates/footer');
+    }
 }

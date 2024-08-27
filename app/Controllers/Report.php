@@ -1,45 +1,69 @@
-<?php
+<?php namespace App\Controllers;
 
-class Report extends CI_Controller
+use App\Models\PublicModel;
+use App\Models\AdminModel;
+use CodeIgniter\Controller;
+use CodeIgniter\I18n\Time;
+
+class Report extends BaseController
 {
-  public function __construct()
-  {
-    parent::__construct();
-    $this->load->library('form_validation');
-    $this->load->model('Public_model');
-    $this->load->model('Admin_model');
-  }
-  public function index()
-  {
-    $d['title'] = 'Report';
-    $d['account'] = $this->Admin_model->getAdmin($this->session->userdata['username']);
-    $d['department'] = $this->db->get('department')->result_array();
-    $d['start'] = $this->input->get('start');
-    $d['end'] = $this->input->get('end');
-    $d['dept_code'] = $this->input->get('dept');
-    $d['attendance'] = $this->_attendanceDetails($d['start'], $d['end'], $d['dept_code']);
+    protected $publicModel;
+    protected $adminModel;
+    protected $session;
+    protected $db;
 
-    $this->load->view('templates/table_header', $d);
-    $this->load->view('templates/sidebar');
-    $this->load->view('templates/topbar');
-    $this->load->view('report/index', $d);
-    $this->load->view('templates/table_footer');
-  }
-  private function _attendanceDetails($start, $end, $dept)
-  {
-    if ($start == '' || $end == '') {
-      return false;
-    } else {
-      return $this->Public_model->get_attendance($start, $end, $dept);
+    public function __construct()
+    {
+        // Initialize session service
+        $this->session = \Config\Services::session();
+
+        // Load models
+        $this->publicModel = new PublicModel();
+        $this->adminModel = new AdminModel();
+
+        // Initialize database connection
+        $this->db = \Config\Database::connect();
     }
-  }
-  public function print($start, $end, $dept)
-  {
-    $d['start'] = $start;
-    $d['end'] = $end;
-    $d['attendance'] = $this->Public_model->get_attendance($start, $end, $dept);
-    $d['dept'] = $dept;
 
-    $this->load->view('report/print', $d);
-  }
+    public function index()
+    {
+        // Prepare data
+        $data = [
+            'title' => 'Report',
+            'account' => $this->adminModel->getAdmin($this->session->get('username')),
+            'department' => $this->db->table('department')->get()->getResultArray(),
+            'start' => $this->request->getGet('start'),
+            'end' => $this->request->getGet('end'),
+            'dept_code' => $this->request->getGet('dept'),
+            'attendance' => $this->_attendanceDetails($this->request->getGet('start'), $this->request->getGet('end'), $this->request->getGet('dept'))
+        ];
+
+        // Render views
+        echo view('templates/table_header', $data);
+        echo view('templates/sidebar');
+        echo view('templates/topbar');
+        echo view('report/index', $data);
+        echo view('templates/table_footer');
+    }
+
+    private function _attendanceDetails($start, $end, $dept)
+    {
+        if (empty($start) || empty($end)) {
+            return false;
+        } else {
+            return $this->publicModel->get_attendance($start, $end, $dept);
+        }
+    }
+
+    public function print($start, $end, $dept)
+    {
+        $data = [
+            'start' => $start,
+            'end' => $end,
+            'attendance' => $this->publicModel->get_attendance($start, $end, $dept),
+            'dept' => $dept
+        ];
+
+        echo view('report/print', $data);
+    }
 }

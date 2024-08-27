@@ -1,7 +1,9 @@
 <?php
 
+namespace App\Controllers;
+use CodeIgniter\Controller;
 
-class Welcome extends CI_Controller {
+class Welcome extends BaseController{
 
 	/**
 	 * Index Page for this controller.
@@ -20,6 +22,6 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		echo view('welcome_message');
 	}
 }

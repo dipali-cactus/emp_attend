@@ -15,15 +15,25 @@
                   <h1 class="h4 text-gray-900 mb-4">Employee Attendance System</h1>
                   <hr>
                 </div>
-                <?= $this->session->flashdata('message'); ?>
+
+                <?php if (session()->getFlashdata('message')): ?>
+                    <div class="alert alert-info">
+                        <?= session()->getFlashdata('message'); ?>
+                    </div>
+                <?php endif; ?>
+
                 <form class="user" method="post" action="<?= base_url(); ?>">
                   <div class="form-group mt-4">
                     <input type="text" class="form-control form-control-user" name="username" placeholder="Username (example: CDM023)">
-                    <?= form_error('username', '<small class="text-danger pl-3">', '</small>') ?>
+                    <?php if(isset($validation) && $validation->hasError('username')): ?>
+                        <small class="text-danger pl-3"><?= $validation->getError('username'); ?></small>
+                    <?php endif; ?>
                   </div>
                   <div class="form-group mt-4 mb-4">
                     <input type="password" class="form-control form-control-user" name="password" placeholder="Password">
-                    <?= form_error('password', '<small class="text-danger pl-3">', '</small>') ?>
+                    <?php if(isset($validation) && $validation->hasError('password')): ?>
+                        <small class="text-danger pl-3"><?= $validation->getError('password'); ?></small>
+                    <?php endif; ?>
                   </div>
                   <button class="btn btn-primary bg-gradient-primary btn-user btn-block mt-4" type="submit">
                     Login
