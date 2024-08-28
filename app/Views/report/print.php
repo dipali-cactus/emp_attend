@@ -21,11 +21,11 @@
     </div>
     <div class="row mb-3">
       <div class="col-6">
-        <h1 class="h5">Department Code : <?= $dept ?></h1>
+        <h1 class="h5">Department Code : <?= esc($dept) ?></h1>
       </div>
       <div class="col-6 text-right">
-        <?php if ($start != null || $end != null) : ?>
-          <h1 class="h5">From: <i><?= $start; ?></i> To: <i><?= $end; ?></i></h1>
+        <?php if ($start !== null || $end !== null) : ?>
+          <h1 class="h5">From: <i><?= esc($start); ?></i> To: <i><?= esc($end); ?></i></h1>
         <?php else : ?>
           <h1 class="h5">All</h1>
         <?php endif; ?>
@@ -47,26 +47,21 @@
       </thead>
       <tbody>
         <?php
-
-        // looping attendance list
+        // Looping attendance list
         $i = 1;
         foreach ($attendance as $atd) :
         ?>
-          <tr <?php if (date('l', $atd['date']) == 'Saturday' || date('l', $atd['date']) == 'Sunday') {
-                echo "class ='bg-secondary text-white'";
-              } ?>>
+          <tr <?= (date('l', $atd['date']) == 'Saturday' || date('l', $atd['date']) == 'Sunday') ? "class='bg-secondary text-white'" : "" ?>>
 
             <!-- Kolom 1 -->
-            <td><?= $i++; ?></td>
+            <td><?= esc($i++) ?></td>
             <?php
-
-            // if WEEKENDS
+            // If WEEKENDS
             if (date('l', $atd['date']) == 'Saturday' || date('l', $atd['date']) == 'Sunday') : ?>
               <!-- Kolom 2 -->
               <td colspan="6" class="text-center">OFF</td>
             <?php
-
-            // if WEEKDAYS
+            // If WEEKDAYS
             else : ?>
               <!-- Kolom 2 (Date) -->
               <td><?= date('l, d F Y', $atd['date']); ?></td>
@@ -74,8 +69,8 @@
               <!-- Kolom 3 (Shift) -->
               <td>
                 <div style="line-height:1em">
-                    <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 '.$atd['start'])) ?></div>
-                    <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 '.$atd['end'])) ?></div>
+                  <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 ' . $atd['start'])) ?></div>
+                  <div class="text-xs"><?= date("h:i A", strtotime('2022-06-23 ' . $atd['end'])) ?></div>
                 </div>
               </td>
 
@@ -83,26 +78,19 @@
               <td><?= date('h:i:s A', $atd['date']); ?></td>
 
               <!-- Kolom 5 (Notes) -->
-              <td><?= $atd['notes']; ?></td>
+              <td><?= esc($atd['notes']); ?></td>
 
-              <!-- Kolom 7 (Lack Of) -->
-              <td><?= $atd['lack_of']; ?></td>
+              <!-- Kolom 6 (Lack Of) -->
+              <td><?= esc($atd['lack_of']); ?></td>
 
+              <!-- Kolom 7 (In Status) -->
+              <td><?= esc($atd['in_status']); ?></td>
 
-              <!-- Kolom 8 (In Status) -->
-              <td><?= $atd['in_status']; ?></td>
+              <!-- Kolom 8 (Time Out) -->
+              <td><?= $atd['out_time'] == 0 ? "Haven't Checked Out" : date('h:i:s A', $atd['out_time']); ?></td>
 
-              <!-- Kolom 9 (Time Out) -->
-              <td><?php if ($atd['out_time'] == 0) {
-                    echo "Haven't Checked Out";
-                  } else {
-                    echo date('h:i:s A', $atd['out_time']);
-                  }
-                  ?>
-              </td>
-
-              <!-- Kolom 10 (Out Status) -->
-              <td><?= $atd['out_status']; ?></td>
+              <!-- Kolom 9 (Out Status) -->
+              <td><?= esc($atd['out_status']); ?></td>
 
             <?php endif; ?>
           </tr>
@@ -111,8 +99,6 @@
     </table>
   </div>
 
-
-
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -120,12 +106,12 @@
   
   <!-- Optional JavaScript -->
   <script>
-    $(function(){
+    $(function() {
       window.print();
       setTimeout(() => {
-        window.close()
+        window.close();
       }, 300);
-    })
+    });
   </script>
 </body>
 
