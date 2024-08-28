@@ -8,4 +8,10 @@ class Home extends BaseController
     {
         return view('welcome_message');
     }
+
+    public function mytest(){
+        echo $this->request->getPost('username');echo "<br>";
+        echo $this->request->getPost('password');echo "<br>";
+        echo "My test"; exit;
+    }
 }

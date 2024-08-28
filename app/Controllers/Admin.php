@@ -16,10 +16,10 @@ class Admin extends BaseController
     public function __construct()
     {
         // Call the parent constructor
-        parent::__construct();
+        //parent::__construct();
 
         // Load any necessary helper functions
-        helper(['form', 'url']);
+        helper(['form', 'url','sak_helper']);
 
         // Load the form validation library
         $this->validation = \Config\Services::validation();
@@ -38,6 +38,7 @@ class Admin extends BaseController
     // Dashboard
     public function index()
     {
+      
         // Execute queries
         $db = \Config\Database::connect();
 
