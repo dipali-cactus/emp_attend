@@ -12,7 +12,7 @@
   </a>
 
   <div class="row justify-content-center">
-    <form action="<?= base_url('master/edit_user/' . esc($users['id'])); ?>" method="POST" class="col-lg-5 col-md-6 col-sm-12 p-0">
+    <form action="<?= base_url('master/e_users/' . esc($users['username'])); ?>" method="POST" class="col-lg-5 col-md-6 col-sm-12 p-0">
       <div class="card rounded-0">
         <h5 class="card-header">Users Master Data</h5>
         <div class="card-body">
@@ -30,7 +30,9 @@
           <div class="form-group">
             <label for="password" class="col-form-label-lg">Reset Password</label>
             <input type="password" class="form-control form-control-lg" name="password" id="password">
-            <small class="text-danger"><?= $validation->getError('password'); ?></small>
+            <?php if (isset($validation) && $validation->getError('password')): ?>
+              <small class="text-danger"><?= $validation->getError('password'); ?></small>
+            <?php endif; ?>
           </div>
 
           <button type="submit" class="btn btn-sm btn-primary bg-gradient-primary btn-icon-split mt-4 float-right rounded-0">

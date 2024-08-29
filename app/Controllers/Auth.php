@@ -106,10 +106,6 @@ class Auth extends BaseController
 
                 $this->session->set($data);
 
-                // echo var_dump($this->session->get('username'));
-                // echo "<br>";
-                // echo var_dump($data);exit;
-
                 switch ($user['role_id']) {
                     case 1:
                         return redirect()->to('/admin');    

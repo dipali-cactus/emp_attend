@@ -18,7 +18,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-lg-10 p-0">
-            <?= form_open_multipart('master/a_employee'); ?>
+            <form action="<?= base_url('master/a_employee'); ?>" method="POST" >
             <div class="card rounded-0">
                 <h5 class="card-header">Employee Master Data</h5>
                 <div class="card-body">
@@ -106,10 +106,10 @@
                         </span>
                         <span class="text">Save</span>
                     </button>
-                    <?= form_close(); ?>
+                    
                 </div>
             </div>
-            <?= form_close() ?>
+            </form>
         </div>
     </div>
 </div>

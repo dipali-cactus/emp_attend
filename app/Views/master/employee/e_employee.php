@@ -11,7 +11,7 @@
     <span class="text">Back</span>
   </a>
 
-  <?= form_open_multipart('master/e_employee/' . $employee['id']); ?>
+  <form action="<?= site_url('master/e_employee/' . $employee['id']) ?>" method="post" enctype="multipart/form-data">
   <div class="col-lg p-0">
     <?= session()->getFlashdata('message') ?>
     <div class="row justify-content-center">
@@ -130,7 +130,6 @@
       </div>
     </div>
   </div>
-  <?= form_close(); ?>
 </div>
 <!-- /.container-fluid -->
 
