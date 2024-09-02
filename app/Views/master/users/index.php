@@ -62,7 +62,12 @@
                   </td>
                 <?php else : ?>
                   <td class="align-middle text-center">
+                    <?php
+                    /*
                     <a href="<?= base_url('master/a_users/' . esc($dt['e_id']) . '/' . esc($dt['d_id'])); ?>" class="btn btn-primary btn-sm bg-gradient-primary rounded-pill px-3">Create Account</a>
+                    */
+                    ?>
+                    <a href="<?= base_url('master/a_users/' . esc($dt['e_id'])); ?>" class="btn btn-primary btn-sm bg-gradient-primary rounded-pill px-3">Create Account</a>
                   </td>
                   <td class="text-center align-middle">
                     <button class="btn btn-primary rounded-0 btn-sm text-xs" disabled>

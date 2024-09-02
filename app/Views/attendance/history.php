@@ -9,18 +9,21 @@
     </div>
   </div>
   <hr>
+
+  <?php //echo var_dump($data);exit; ?>
+
   <div class="card rounded-0 shadow mb-3">
     <div class="card-body">
       <fieldset class="border rounded-0 px-2 pb-2">
         <legend class="ml-3 px-3 w-auto">Filter Report</legend>
         <form action="<?= current_url() ?>" method="get">
           <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-12">
-              <input type="date" name="start" class="form-control form-control-sm rounded-0" value="<?= esc($this->request->getGet('start')) ?>">
+            <div class="col-lg-3 col-md-6 col-sm-12">              
+              <input type="date" name="start" class="form-control form-control-sm rounded-0" value="<?= isset($data['start']) ? esc($data['start']) : ''?>">
               <?= session()->getFlashdata('errors')['start'] ?? '' ?>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12">
-              <input type="date" name="end" class="form-control form-control-sm rounded-0" value="<?= esc($this->request->getGet('end')) ?>">
+              <input type="date" name="end" class="form-control form-control-sm rounded-0" value="<?= isset($data['end']) ? esc($data['end']) : ''?>">
               <?= session()->getFlashdata('errors')['end'] ?? '' ?>
             </div>
             <div class="col-2">

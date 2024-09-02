@@ -206,10 +206,8 @@ class Master extends BaseController
     if ($affectedRow > 0) {
       $this->session->setFlashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">Successfully added a new shift!</div>');
       return redirect()->to('master/shift');
-    } 
-    else 
-    {
-      return redirect()->back()->withInput()->with('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">Failed to add new shift!</div>'); 
+    } else {
+      return redirect()->back()->withInput()->with('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">Failed to add new shift!</div>');
     }
   }
 
@@ -399,7 +397,7 @@ class Master extends BaseController
 
 
   public function _addEmployee()
-{
+  {
     $name = $this->request->getPost('e_name');
     $department = $this->request->getPost('d_id');
     $email = $this->request->getPost('email');
@@ -412,51 +410,51 @@ class Master extends BaseController
     $checkEmail = $this->db->table('employee')->where('email', $email)->countAllResults();
 
     if ($checkEmail > 0) {
-        session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
+      session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
             Email already used!</div>');
     } else {
-        // Config Upload Image
-        // Config Upload Image
-        $file = $this->request->getFile('image');
-        $image = 'default.png';
+      // Config Upload Image
+      // Config Upload Image
+      $file = $this->request->getFile('image');
+      $image = 'default.png';
 
-        if ($file && $file->isValid()) {
-            $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
-            $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
-            $image = $imageName;
-        }
-          
-        $data = [
-            'name'       => $name,
-            'email'      => $email,
-            'gender'     => $gender,
-            'image'      => $image,
-            'birth_date' => $birth_date,
-            'hire_date'  => $hire_date,
-            'shift_id'   => $shift_id,
-        ];
+      if ($file && $file->isValid()) {
+        $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
+        $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
+        $image = $imageName;
+      }
 
-        $this->db->table('employee')->insert($data);
-        $e_id = $this->db->insertID();
+      $data = [
+        'name'       => $name,
+        'email'      => $email,
+        'gender'     => $gender,
+        'image'      => $image,
+        'birth_date' => $birth_date,
+        'hire_date'  => $hire_date,
+        'shift_id'   => $shift_id,
+      ];
 
-        $d = [
-            'department_id' => $department,
-            'employee_id'   => $e_id,
-        ];
+      $this->db->table('employee')->insert($data);
+      $e_id = $this->db->insertID();
 
-        $this->db->table('employee_department')->insert($d);
-        $rows = $this->db->affectedRows();
+      $d = [
+        'department_id' => $department,
+        'employee_id'   => $e_id,
+      ];
 
-        if ($rows > 0) {
-            session()->setFlashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
+      $this->db->table('employee_department')->insert($d);
+      $rows = $this->db->affectedRows();
+
+      if ($rows > 0) {
+        session()->setFlashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
                 Successfully added a new employee!</div>');
-        } else {
-            session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
+      } else {
+        session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
                 Failed to add data!</div>');
-        }
-        return redirect()->to('master/employee');
+      }
+      return redirect()->to('master/employee');
     }
-}
+  }
 
 
 
@@ -492,12 +490,12 @@ class Master extends BaseController
       // Handle file upload
       $image = 'default.png';
       if ($this->request->getFile('image')->isValid()) {
-        $file = $this->request->getFile('image');    
+        $file = $this->request->getFile('image');
         if ($file) {
-            $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
-            $upload_success = $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
-            $image = $imageName;
-        }      
+          $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
+          $upload_success = $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
+          $image = $imageName;
+        }
 
         // Delete old image if not default
         if ($upload_success && $d['employee']['image'] != 'default.png') {
@@ -626,7 +624,7 @@ class Master extends BaseController
       session()->setFlashdata('message', '<div class="alert alert-success rounded-0 mb-2" role="alert">
         Successfully added a new location!</div>');
       // Redirect to the location details page
-      return redirect()->to('master/e_location/' . $insertID);
+      return redirect()->to('master/location');
     } else {
       // Set error message in the session
       session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
@@ -691,7 +689,7 @@ class Master extends BaseController
         session()->setFlashdata('message', '<div class="alert alert-warning rounded-0 mb-2" role="alert">
             No Changes!</div>');
       }
-      return redirect()->to('master/e_location/' . $l_id);
+      return redirect()->to('master/location');
     }
   }
 
@@ -770,13 +768,8 @@ class Master extends BaseController
       ]
     ]);
 
-    if (!$validation->withRequest($this->request)->run()) {
-      echo view('templates/header', $d);
-      echo view('templates/sidebar');
-      echo view('templates/topbar');
-      echo view('master/users/a_users', $d);
-      echo view('templates/footer');
-    } else {
+   
+    if (service('request')->getMethod() === 'post' && $validation->withRequest($this->request)->run()) {
       $username = $this->request->getPost('u_username');
       $role_id = ($empDep['department_id'] != 'ADM') ? 2 : 1;
       $data = [
@@ -786,7 +779,15 @@ class Master extends BaseController
         'role_id' => $role_id
       ];
       $this->_addUsers($data);
-    }
+      return redirect()->to('master/users');
+      
+    } else {
+      echo view('templates/header', $d);
+      echo view('templates/sidebar');
+      echo view('templates/topbar');
+      echo view('master/users/a_users', $d);
+      echo view('templates/footer');
+    }   
   }
 
   public function _addUsers(array $data)
@@ -810,6 +811,7 @@ class Master extends BaseController
 
   public function e_users(string $username)
   {
+
     $db = \Config\Database::connect();
     $builder = $db->table('users');
 
@@ -825,15 +827,21 @@ class Master extends BaseController
       ]
     ]);
 
-    if (!$validation->withRequest($this->request)->run()) {
+    //if (!$validation->withRequest($this->request)->run()) {
+
+    if (service('request')->getMethod() === 'post' && $validation->withRequest($this->request)->run()) 
+    {
+      $data = ['password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)];    
+      $this->_editUsers($data, $username);
+      return redirect()->to('master/users');
+    } 
+    else
+    {
       echo view('templates/header', $d);
       echo view('templates/sidebar');
       echo view('templates/topbar');
       echo view('master/users/e_users', $d);
       echo view('templates/footer');
-    } else {
-      $data = ['password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT)];
-      $this->_editUsers($data, $username);
     }
   }
 
@@ -856,7 +864,6 @@ class Master extends BaseController
       session()->setFlashdata('message', '<div class="alert alert-danger rounded-0 mb-2" role="alert">
             Failed to edit account!</div>');
     }
-
     // Redirect
     return redirect()->to('master/users');
   }

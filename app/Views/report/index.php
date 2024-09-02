@@ -22,21 +22,21 @@
         <form action="" method="GET">
           <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-12">
-              <input type="date" name="start" class="form-control form-control-sm rounded-0" value="<?= esc($this->request->getGet('start')) ?>">
-              <?= $validation->getError('start') ? '<small class="text-danger pl-3">' . $validation->getError('start') . '</small>' : '' ?>
+              <input type="date" name="start" class="form-control form-control-sm rounded-0" value="<?= isset($start) ? esc($start) : ''?>">
+              <?= isset($validation) && $validation->getError('start') ? '<small class="text-danger pl-3">' . $validation->getError('start') . '</small>' : '' ?>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12">
-              <input type="date" name="end" class="form-control form-control-sm rounded-0" value="<?= esc($this->request->getGet('end')) ?>">
-              <?= $validation->getError('end') ? '<small class="text-danger pl-3">' . $validation->getError('end') . '</small>' : '' ?>
+              <input type="date" name="end" class="form-control form-control-sm rounded-0" value="<?= isset($end) ? esc($end) : ''?>">
+              <?= isset($validation) && $validation->getError('end') ? '<small class="text-danger pl-3">' . $validation->getError('end') . '</small>' : '' ?>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12">
               <select class="form-control form-control-sm rounded-0" name="dept">
                 <option disabled>Department</option>
                 <?php foreach ($department as $d) : ?>
-                  <option <?= esc($this->request->getGet('dept')) == $d['id'] ? 'selected' : '' ?> value="<?= esc($d['id']); ?>"><?= esc($d['id']); ?></option>
+                  <option <?= esc($dept_code) == $d['id'] ? 'selected' : '' ?> value="<?= esc($d['id']); ?>"><?= esc($d['id']); ?></option>
                 <?php endforeach; ?>
               </select>
-              <?= $validation->getError('dept') ? '<small class="text-danger pl-3">' . $validation->getError('dept') . '</small>' : '' ?>
+              <?= isset($validation) && $validation->getError('dept') ? '<small class="text-danger pl-3">' . $validation->getError('dept') . '</small>' : '' ?>
             </div>
             <div class="col-2">
               <button type="submit" class="btn btn-primary btn-sm rounded-0 bg-gradient-primary "><i class="fa fa-file"></i> Show Report</button>
@@ -48,7 +48,7 @@
   </div>
   <!-- End of row show -->
   <?php if (empty($attendance)) : ?>
-    <h3 class="text-center my-5">Please Choose Department and Dates.</h3>
+    <h3 class="text-center my-5">Please Choose Department and Dates. No Data found for this dates.</h3>
   <?php else : ?>
     <div class="card shadow mb-4 rounded-0">
       <div class="card-header py-3">

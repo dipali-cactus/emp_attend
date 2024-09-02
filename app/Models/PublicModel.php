@@ -54,4 +54,99 @@ class PublicModel extends Model
 
         return $query->getResultArray();
     }
+
+    public function getEmpAttendance($e_id, $start, $end)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('attendance');
+
+        $builder->select('attendance.in_time AS date,
+                      attendance.shift_id AS shift,
+                      employee.name AS name,
+                      attendance.notes AS notes,
+                      attendance.image AS image,
+                      attendance.lack_of AS lack_of,
+                      attendance.in_status AS in_status,
+                      attendance.out_time AS out_time,
+                      attendance.out_status AS out_status,
+                      attendance.employee_id AS e_id,
+                      shift.start,
+                      shift.end');
+        $builder->join('employee_department', 'attendance.employee_id = employee_department.employee_id');
+        $builder->join('employee', 'attendance.employee_id = employee.id');
+        $builder->join('shift', 'employee.shift_id = shift.id');
+        $builder->where('employee.id', $e_id);
+
+        if ($start)
+            $builder->where('DATE(FROM_UNIXTIME(in_time)) >=', $start);
+
+        if ($end)
+            $builder->where('DATE(FROM_UNIXTIME(in_time)) <=', $end);
+
+        $builder->orderBy('date', 'ASC');
+
+        // Generate the SQL query as a string
+        // $sqlQuery = $builder->getCompiledSelect();
+        // echo "<br><br> Quryr <br>";
+        // echo $sqlQuery; // Output the raw SQL query
+        // exit;
+
+        return $builder->get()->getResultArray();
+    }
+
+
+    public function getAllEmployeeData($username)
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('users');
+
+        // Get employee ID from users table
+        $builder->select('employee_id');
+        $builder->where('username', $username);
+        $user = $builder->get()->getRowArray();
+        $e_id = $user['employee_id'];
+
+        // Join Query to get employee data
+        $builder = $db->table('employee');
+        $builder->select('employee.id AS id,
+                      employee.name AS name,
+                      employee.gender AS gender,
+                      employee.image AS image,
+                      employee.birth_date AS birth_date,
+                      employee.hire_date AS hire_date,
+                      department.name AS department');
+        $builder->join('employee_department', 'employee.id = employee_department.employee_id');
+        $builder->join('department', 'employee_department.department_id = department.id');
+        $builder->where('employee.id', $e_id);
+
+        return $builder->get()->getRowArray();
+    }
+
+    //     public function getEmpAttendance($e_id, $start, $end)
+    // {
+    //     $builder = $this->db->table('attendance');
+    //     $builder->select('attendance.in_time AS date,
+    //                       attendance.shift_id AS shift,
+    //                       employee.name AS name,
+    //                       attendance.notes AS notes,
+    //                       attendance.image AS image,
+    //                       attendance.lack_of AS lack_of,
+    //                       attendance.in_status AS in_status,
+    //                       attendance.out_time AS out_time,
+    //                       attendance.out_status AS out_status,
+    //                       attendance.employee_id AS e_id,
+    //                       shift.start,
+    //                       shift.end');
+    //     $builder->join('employee_department', 'attendance.employee_id = employee_department.employee_id');
+    //     $builder->join('employee', 'attendance.employee_id = employee.id');
+    //     $builder->join('shift', 'employee.shift_id = shift.id');
+    //     $builder->where('employee.id', $e_id);
+    //     $builder->where('DATE(FROM_UNIXTIME(in_time)) >=', $start);
+    //     $builder->where('DATE(FROM_UNIXTIME(in_time)) <=', $end);
+    //     $builder->orderBy('date', 'ASC');
+
+    //     $query = $builder->get();
+    //     return $query->getResultArray();
+    // }
+
 }

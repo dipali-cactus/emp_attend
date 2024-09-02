@@ -11,6 +11,11 @@
     <span class="text">Back</span>
   </a>
 
+  <?php
+    //echo "<br><br> User <br><br>";
+    //echo var_dump($users);exit;
+  ?>
+
   <div class="row justify-content-center">
     <form action="<?= base_url('master/e_users/' . esc($users['username'])); ?>" method="POST" class="col-lg-5 col-md-6 col-sm-12 p-0">
       <div class="card rounded-0">

@@ -23,14 +23,18 @@
               <label for="u_username" class="col-form-label col-lg-4">Username</label>
               <div class="col p-0">
                 <input type="text" readonly class="form-control-plaintext col-lg" name="u_username" id="u_username" value="<?= esc($username); ?>">
-                <small class="text-danger"><?= $validation->getError('u_username') ?></small>
+                <?php if(isset($validation) && $validation->getError('u_username')): ?>
+                  <small class="text-danger"><?= $validation->getError('u_username') ?></small>
+                <?php endif; ?>
               </div>
             </div>
             <div class="form-group row">
               <label for="u_password" class="col-form-label col-lg-4">Password</label>
               <div class="col p-0">
                 <input type="password" class="form-control col-lg" name="u_password" id="u_password">
-                <small class="text-danger"><?= $validation->getError('u_password') ?></small>
+                <?php if(isset($validation) && $validation->getError('u_password')): ?>
+                  <small class="text-danger"><?= $validation->getError('u_password') ?></small>
+                <?php endif; ?>                
               </div>
             </div>
             <button type="submit" class="btn btn-sm btn-primary bg-gradient-primary btn-icon-split mt-4 float-right rounded-0">

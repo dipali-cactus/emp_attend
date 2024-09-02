@@ -12,7 +12,7 @@ $routes->post('test','Auth::mytest');
 
 $routes->get('auth', 'Auth::index');
 $routes->get('admin', 'Admin::index');
-$routes->get('profile', 'Profile::index');
+
 
 $routes->get('master', 'Master::index');
 $routes->get('master/a_dept', 'Master::a_dept');
@@ -40,21 +40,29 @@ $routes->get('master/d_employee/(:segment)', 'Master::d_employee/$1');
 
 $routes->get('master/location', 'Master::location');
 $routes->get('master/a_location', 'Master::a_location');
-$routes->post('master/a_location', 'Master::_addLocation');
+$routes->post('master/a_location', 'Master::a_location');
 $routes->get('master/e_location/(:num)', 'Master::e_location/$1');
-$routes->post('master/e_location', 'Master::_editLocation');
+$routes->post('master/e_location/(:num)', 'Master::e_location/$1');
 $routes->get('master/d_location/(:num)', 'Master::d_location/$1');
 
 $routes->get('master/users', 'Master::users');
-$routes->get('master/a_users/(:segment)', 'Master::a_users/$1');
-$routes->post('master/a_users', 'Master::a_users');
+$routes->get('master/a_users/(:num)', 'Master::a_users/$1');
+$routes->post('master/a_users/(:num)', 'Master::a_users/$1');
+
 $routes->get('master/e_users/(:segment)', 'Master::e_users/$1');
-$routes->post('master/e_users', 'Master::e_users');
+$routes->post('master/e_users/(:segment)', 'Master::e_users/$1');
 $routes->get('master/d_users/(:num)', 'Master::d_users/$1');
 
-$routes->get('report/(:any)?', 'Report::index');
-
+$routes->get('report', 'Report::index');
 $routes->get('auth/logout', 'Auth::logout');
+
+$routes->get('profile', 'Profile::index');
+$routes->get('attendance', 'Attendance::index');
+$routes->post('attendance', 'Attendance::index');
+
+$routes->get('attendance/history', 'Attendance::history');
+
+
 
 
 

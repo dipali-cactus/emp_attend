@@ -24,9 +24,6 @@ class Profile extends BaseController
 
     public function index()
     {
-
-         echo "My Profile admin index";exit;
-        // Prepare data
         $data = [
             'title' => 'My Profile',
             'account' => $this->publicModel->getAllEmployeeData($this->session->get('username'))
