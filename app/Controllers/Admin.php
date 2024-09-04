@@ -19,7 +19,7 @@ class Admin extends BaseController
         //parent::__construct();
 
         // Load any necessary helper functions
-        helper(['form', 'url','sak_helper']);
+        helper(['form', 'url','sak_helper','auth_helper']);
 
         // Load the form validation library
         $this->validation = \Config\Services::validation();
@@ -28,11 +28,15 @@ class Admin extends BaseController
         $this->publicModel = new PublicModel();
         $this->adminModel = new AdminModel();
 
+        isAdminloggedin();
+
         // Custom methods
         is_weekends();
         is_logged_in();
         is_checked_in();
         is_checked_out();
+
+        
     }
 
     // Dashboard

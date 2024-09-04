@@ -55,10 +55,14 @@ class Auth extends BaseController
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
-                $data = [
-                    'username' => $user['username'],
-                    'role_id' => $user['role_id']
-                ];
+                $data = [];
+                if($user['role_id'] === 1){
+                    $data['admin_username'] = $user['username'];
+                }else{
+                    $data['username'] = $user['username'];
+                }   
+                $data['role_id'] = $user['role_id'];
+
                 $this->session->set($data);
                 switch ($user['role_id']) {
                     case 1:
@@ -78,7 +82,13 @@ class Auth extends BaseController
 
     public function logout()
     {
-        $this->session->remove('username');
+
+        if($this->session->has('username'))
+            $this->session->remove('username');
+
+        if($this->session->has('admin_username'))
+            $this->session->remove('admin_username');
+
         $this->session->remove('role_id');
         $this->session->setFlashdata('message', '<div class="alert alert-success" role="alert">Logged Out!</div>');
         return redirect()->to('/auth');

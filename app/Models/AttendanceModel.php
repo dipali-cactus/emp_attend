@@ -18,7 +18,7 @@ class AttendanceModel extends Model
         'in_time',
         'notes',
         'image',
-        'lack_of',
+        'lack_of',  
         'in_status',
         'out_time',
         'out_status'

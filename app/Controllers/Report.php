@@ -27,16 +27,22 @@ class Report extends BaseController
 
     public function index()
     {
+        $start_time = $this->request->getGet('start');
+        $end_time = $this->request->getGet('end');
+        $dept_id = $this->request->getGet('dept');
+       
         // Prepare data
         $data = [
             'title' => 'Report',
             'account' => $this->adminModel->getAdmin($this->session->get('username')),
             'department' => $this->db->table('department')->get()->getResultArray(),
-            'start' => $this->request->getGet('start'),
-            'end' => $this->request->getGet('end'),
-            'dept_code' => $this->request->getGet('dept'),
-            'attendance' => $this->_attendanceDetails($this->request->getGet('start'), $this->request->getGet('end'), $this->request->getGet('dept'))
+            'start' => $start_time ? $start_time : '',
+            'end' => $end_time ? $end_time : '',
+            'dept_code' => $dept_id,
+            'attendance' => $this->_attendanceDetails($start_time, $end_time, $dept_id)
         ];
+
+        //echo "<br><pre>"print_r($data);exit;
 
         // Render views
         echo view('templates/table_header', $data);
@@ -51,16 +57,20 @@ class Report extends BaseController
         if (empty($start) || empty($end)) {
             return false;
         } else {
-            return $this->publicModel->get_attendance($start, $end, $dept);
+            $start_time = $start . ' 00:00:00';
+            $end_time = $end. ' 23:59:59';
+            return $this->publicModel->get_attendance(strtotime($start_time), strtotime($end_time), $dept);
         }
     }
 
     public function print($start, $end, $dept)
     {
+        $start_time = $start . ' 00:00:00';
+        $end_time = $end. ' 23:59:59';
         $data = [
             'start' => $start,
             'end' => $end,
-            'attendance' => $this->publicModel->get_attendance($start, $end, $dept),
+            'attendance' => $this->publicModel->get_attendance(strtotime($start_time), strtotime($end_time), $dept),
             'dept' => $dept
         ];
 

@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Auth::index');
+$routes->get('/login', 'Auth::index');
 
 $routes->post('login','Auth::index');
 $routes->post('test','Auth::mytest');
@@ -54,6 +55,8 @@ $routes->post('master/e_users/(:segment)', 'Master::e_users/$1');
 $routes->get('master/d_users/(:num)', 'Master::d_users/$1');
 
 $routes->get('report', 'Report::index');
+$routes->get('report/print/(:segment)/(:segment)/(:segment)', 'Report::print/$1/$2/$3');
+
 $routes->get('auth/logout', 'Auth::logout');
 
 $routes->get('profile', 'Profile::index');
@@ -61,10 +64,4 @@ $routes->get('attendance', 'Attendance::index');
 $routes->post('attendance', 'Attendance::index');
 
 $routes->get('attendance/history', 'Attendance::history');
-
-
-
-
-
-
-
+$routes->get('attendance/checkout', 'Attendance::checkout');

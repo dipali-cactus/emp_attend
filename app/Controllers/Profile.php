@@ -10,6 +10,13 @@ class Profile extends BaseController
 
     public function __construct()
     {
+        // Load any necessary helper functions
+        helper(['auth_helper']);
+
+        // check if user loggedin or not
+        isUserLoggedIn();
+
+
         // Initialize session service
         $this->session = \Config\Services::session();
 

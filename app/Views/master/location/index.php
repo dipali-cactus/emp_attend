@@ -11,7 +11,7 @@
         <span class="icon text-white-600">
           <i class="fas fa-plus-circle"></i>
         </span>
-        <span class="text">Add New Employee</span>
+        <span class="text">Add New Location</span>
       </a>
     </div>
   </div>

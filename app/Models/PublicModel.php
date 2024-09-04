@@ -33,6 +33,38 @@ class PublicModel extends Model
 
     public function get_attendance($start, $end, $dept)
     {
+
+//         // Assuming you have a model or are using the database connection directly
+// $db      = \Config\Database::connect();
+// $builder = $db->table('attendance');
+
+// // Build your query
+// $builder->select('attendance.in_time AS date,
+//                   attendance.shift_id AS shift,
+//                   employee.name AS name,
+//                   attendance.notes AS notes,
+//                   attendance.image AS image,
+//                   attendance.lack_of AS lack_of,
+//                   attendance.in_status AS in_status,
+//                   attendance.out_time AS out_time,
+//                   attendance.out_status AS out_status,
+//                   shift.start,
+//                   shift.end');
+// $builder->join('employee', 'attendance.employee_id = employee.id');
+// $builder->join('employee_department', 'employee.id = employee_department.employee_id');
+// $builder->join('department', 'employee_department.department_id = department.id');
+// $builder->join('shift', 'employee.shift_id = shift.id');
+// $builder->where('attendance.in_time >=', $start);
+// $builder->where('attendance.in_time <=', $end);
+// $builder->where('department.id', $dept);
+// $builder->orderBy('attendance.in_time', 'ASC');
+
+// // Get the compiled SQL query
+// $sql = $builder->getCompiledSelect();
+
+// echo $sql;exit;
+
+
         $query = $this->db->query("
             SELECT attendance.in_time AS date,
                    attendance.shift_id AS shift,
@@ -42,11 +74,14 @@ class PublicModel extends Model
                    attendance.lack_of AS lack_of,
                    attendance.in_status AS in_status,
                    attendance.out_time AS out_time,
-                   attendance.out_status AS out_status
+                   attendance.out_status AS out_status,
+                   shift.start as start,
+                   shift.end as end
             FROM attendance
             INNER JOIN employee ON attendance.employee_id = employee.id
             INNER JOIN employee_department ON employee.id = employee_department.employee_id
             INNER JOIN department ON employee_department.department_id = department.id
+            INNER JOIN shift ON employee.shift_id  = shift.id            
             WHERE attendance.in_time BETWEEN :start: AND :end:
               AND department.id = :dept:
             ORDER BY attendance.in_time ASC

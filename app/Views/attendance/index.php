@@ -1,4 +1,6 @@
 <!-- Begin Page Content -->
+<?php ///echo "<h1> Disable === ". isset($disable) ? $disable : "false"; echo"</h1>"; ?>
+
 <div class="container-fluid">
 
   <!-- Page Heading -->

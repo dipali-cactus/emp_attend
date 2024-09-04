@@ -63,8 +63,7 @@ class Attendance extends BaseController
 
             // If haven't Time In Today
             if (!is_checked_in()) {
-                echo "<br> Not checked ind";exit;
-                
+                //echo "<br> Not checked ind";exit;                
                 $data['in'] = false;
 
                 $validation = \Config\Services::validation();
@@ -150,8 +149,7 @@ class Attendance extends BaseController
                 }
             }
             // If Checked In
-            else {
-                echo "<br> checked in === ".is_checked_out();exit;
+            else {               
 
                 $data['disable'] = is_checked_out();
                 return view('templates/header', $data)
@@ -188,7 +186,8 @@ class Attendance extends BaseController
             ->join('shift', 'attendance.shift_id = shift.id')
             ->where('attendance.username', $username)
             ->where('FROM_UNIXTIME(attendance.in_time, "%Y-%m-%d")', $today)
-            ->first();
+            ->orderBy('in_time', 'DESC')
+            ->first();        
 
         $oTime = time();
         $outStatus = (date('H:i:s', $oTime) >= $querySelect['end']) ? 'Over Time' : 'Early';
@@ -198,7 +197,10 @@ class Attendance extends BaseController
             'out_status' => $outStatus
         ];
 
-        $attendanceModel->update($querySelect['id'], $value);
+        $result = $attendanceModel->update($querySelect['employee_id'], $value);
+        echo var_dump($value);
+        echo "<br>";
+        echo var_dump($result); exit;
         return redirect()->to('/attendance');
     }
     public function history()

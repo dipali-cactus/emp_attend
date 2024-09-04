@@ -57,13 +57,37 @@ function is_checked_in()
 
 function is_checked_out()
 {
+    $db = \Config\Database::connect();
+    $builder = $db->table('attendance');
+    $session = Services::session();
+    $username = $session->get('username');
+
+    // Get the latest record for the user based on username
+    $builder->select('out_time');
+    $builder->where('username', $username);
+    $builder->orderBy('in_time', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $result = $query->getRow();
+
+    // If no result or out_time is 0, the user is checked in (not checked out)
+    if ($result && $result->out_time == 0) {
+        return false; // User is checked in (not checked out)
+    }
+
+    return true; // User is checked out
+}
+
+function is_checked_out_old()
+{
     $session = Services::session();
     $db = \Config\Database::connect();
     $username = $session->get('username');
-    $today = (new Time('now', 'Asia/Manila'))->toDateString();
+    $today = (new Time('now', 'Asia/Manila'))->toDateString();   
 
     $query = $db->table('attendance')
-                ->where('out_time !=', 0)
+                ->where('out_time =', 0)
                 ->where("out_status IS NOT NULL OR out_status != ''")
                 ->where('username', $username)
                 ->where("FROM_UNIXTIME(`in_time`, '%Y-%m-%d')", $today)

@@ -241,6 +241,7 @@ class Master extends BaseController
 
     if ($this->formValidation->withRequest($this->request)->run()) {
       $this->editShift($s_id);
+      return redirect()->to('master/shift');
     } else {
       $data['validation'] = $this->formValidation;
     }
@@ -424,6 +425,9 @@ class Master extends BaseController
         $image = $imageName;
       }
 
+
+      
+
       $data = [
         'name'       => $name,
         'email'      => $email,
@@ -600,6 +604,8 @@ class Master extends BaseController
         'name' => $this->request->getPost('l_name')
       ];
       $this->_addLocation($locationData);
+
+      return redirect()->to('master/location');
     }
 
     return view('templates/header', $data)
@@ -657,6 +663,8 @@ class Master extends BaseController
     if (service('request')->getMethod() === 'post' && $validation->withRequest($this->request)->run()) {
       $name = $this->request->getPost('l_name');
       $this->_editLocation($l_id, $name);
+      // Redirect to the location details page
+      return redirect()->to('master/location');
     }
 
     // Load views
