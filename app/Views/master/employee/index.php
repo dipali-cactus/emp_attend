@@ -64,7 +64,7 @@
                 <td class="align-middle"><?= $i++; ?></td>
                 <td class="align-middle"><?= esc($emp['id']); ?></td>
                 <td class="text-center">
-                  <img src="<?= base_url('images/pp/' . esc($emp['image'], 'attr')); ?>" style="width: 3em; height:3em;object-fit:cover;object-position:center center; border-width: 3px !important;" class="img-rounded border rounded-circle">
+                  <img src="<?= base_url('uploads/employees/' . esc($emp['image'], 'attr')); ?>" style="width: 3em; height:3em;object-fit:cover;object-position:center center; border-width: 3px !important;" class="img-rounded border rounded-circle">                  
                 </td>
                 <td class="align-middle"><?= esc($emp['name']); ?></td>
                 <td class="align-middle text-xs text-center"><?= date("h:i A", strtotime('2022-06-23 ' . esc($emp['start']))); ?> - <?= date("h:i A", strtotime('2022-06-23 ' . esc($emp['end']))); ?></td>

@@ -315,9 +315,10 @@ class Master extends BaseController
 
     if (!$validation->withRequest($this->request)->run()) {
       //return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-      $data['validation'] = $validation;
+      $d['validation'] = $validation;
     } else {
       $this->_addEmployee();
+      return redirect()->to('master/employee');
     }
 
     echo view('templates/header', $d);
@@ -396,9 +397,9 @@ class Master extends BaseController
   //   }
   // }
 
-
+ 
   public function _addEmployee()
-  {
+  {    
     $name = $this->request->getPost('e_name');
     $department = $this->request->getPost('d_id');
     $email = $this->request->getPost('email');
@@ -415,18 +416,14 @@ class Master extends BaseController
             Email already used!</div>');
     } else {
       // Config Upload Image
-      // Config Upload Image
       $file = $this->request->getFile('image');
       $image = 'default.png';
-
+     
       if ($file && $file->isValid()) {
-        $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
-        $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
-        $image = $imageName;
+          $fileName = $file->getRandomName();
+          $file->move('uploads/employees', $fileName);
+          $image = $fileName;
       }
-
-
-      
 
       $data = [
         'name'       => $name,
@@ -460,8 +457,6 @@ class Master extends BaseController
     }
   }
 
-
-
   public function e_employee($e_id)
   {
     $d = [];
@@ -494,18 +489,23 @@ class Master extends BaseController
       // Handle file upload
       $image = 'default.png';
       if ($this->request->getFile('image')->isValid()) {
+
         $file = $this->request->getFile('image');
-        if ($file) {
-          $imageName = 'item-' . date('ymd') . '-' . substr(md5(rand()), 0, 10) . '.' . $file->getExtension();
-          $upload_success = $file->move(WRITEPATH . 'uploads/images/pp/', $imageName);
-          $image = $imageName;
+        if ($file && $file->isValid()) {
+          $fileName = $file->getRandomName();
+          $upload_success =  $file->move('uploads/employees', $fileName);
+          $image = $fileName;
         }
 
+        $uploadPath = FCPATH . 'uploads/employees/';
         // Delete old image if not default
-        if ($upload_success && $d['employee']['image'] != 'default.png') {
-          unlink(WRITEPATH . 'uploads/images/pp/' . $d['employee']['image']);
+        if ($upload_success && $d['employee']['image'] != 'default.png' &&  file_exists($uploadPath . $d['employee']['image'])) 
+        {
+          unlink( $uploadPath. $d['employee']['image']);
         }
-      } else {
+      }
+      else 
+      {
         $image = $d['employee']['image'];
       }
 
@@ -517,10 +517,12 @@ class Master extends BaseController
         'hire_date' => $hire_date,
         'shift_id' => $s_id
       ];
+
       $department = [
         'department_id' => $d_id
       ];
       $this->_editEmployee($e_id, $data, $department);
+      return redirect()->to('master/employee');
     }
 
     echo view('templates/header', $d);

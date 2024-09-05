@@ -10,7 +10,7 @@
 
           <!-- left -->
           <div class="col-sm-10 col-md-5 col-lg-4 col-xl-3 offset-sm-1 offset-md-0 offset-lg-0 offset-xl-0 text-center">
-            <img src="<?= base_url('images/pp/') . $account['image']; ?>" class="rounded-circle img-thumbnail">
+            <img src="<?= base_url('uploads/employees/') . $account['image']; ?>" class="rounded-circle img-thumbnail">
           </div>
 
           <!-- right -->

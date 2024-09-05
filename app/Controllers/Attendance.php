@@ -47,7 +47,6 @@ class Attendance extends BaseController
             $data['endTime'] = $resultShift['end'];
         }
 
-
         // If Weekends
         if (is_weekends()) {
             $data['weekends'] = true;

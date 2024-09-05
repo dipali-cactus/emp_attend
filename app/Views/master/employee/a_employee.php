@@ -18,7 +18,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-lg-10 p-0">
-            <form action="<?= base_url('master/a_employee'); ?>" method="POST" >
+            <form action="<?= base_url('master/a_employee'); ?>" method="POST" enctype="multipart/form-data" >
             <div class="card rounded-0">
                 <h5 class="card-header">Employee Master Data</h5>
                 <div class="card-body">
@@ -30,7 +30,7 @@
                                 <label for="e_name" class="col-form-label col-lg-4">Employee Name</label>
                                 <div class="col p-0">
                                     <input type="text" class="form-control col-lg" name="e_name" id="e_name" autofocus>
-                                    <?= isset($validation) ? $validation->showError('e_name', '<small class="text-danger">', '</small>') : ''; ?>
+                                    <?= isset($validation) ? '<small class="text-danger">' . $validation->getError('e_name') . '</small>' : '' ?>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -46,8 +46,8 @@
                             <div class="form-group row">
                                 <label for="email" class="col-form-label col-lg-4">Email</label>
                                 <div class="col p-0">
-                                    <input type="text" class="form-control col-lg" name="email" id="email">
-                                    <?= isset($validation) ? $validation->showError('email', '<small class="text-danger">', '</small>') : ''; ?>
+                                    <input type="text" class="form-control col-lg" name="email" id="email">                                    
+                                    <?= isset($validation) ? '<small class="text-danger">' . $validation->getError('email') . '</small>' : '' ?>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -63,8 +63,8 @@
                                     <label class="form-check-label" for="f">
                                         Female
                                     </label>
-                                </div>
-                                <?= isset($validation) ? $validation->showError('e_gender', '<small class="text-danger">', '</small>') : ''; ?>
+                                </div>                                
+                                <?= isset($validation) ? '<small class="text-danger">' . $validation->getError('e_gender') . '</small>' : '' ?>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -87,15 +87,15 @@
                             <div class="form-group row">
                                 <label for="e_birth_date" class="col-form-label col-lg-4">Employee D.O.B</label>
                                 <div class="col-lg p-0">
-                                    <input type="date" class="form-control col-lg" name="e_birth_date" id="e_birth_date" min="1990-01-01" max="2002-01-01">
-                                    <?= isset($validation) ? $validation->showError('e_birth_date', '<small class="text-danger">', '</small>') : ''; ?>
+                                    <input type="date" class="form-control col-lg" name="e_birth_date" id="e_birth_date" min="1990-01-01" max="2002-01-01">                                    
+                                    <?= isset($validation) ? '<small class="text-danger">' . $validation->getError('e_birth_date') . '</small>' : '' ?>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="e_hire_date" class="col-form-label col-lg-4">Hired Date</label>
                                 <div class="col-lg p-0">
-                                    <input type="date" class="form-control col-lg" name="e_hire_date" id="e_hire_date" min="2004-04-16" max="<?= date('Y-m-d'); ?>">
-                                    <?= isset($validation) ? $validation->showError('e_hire_date', '<small class="text-danger">', '</small>') : ''; ?>
+                                    <input type="date" class="form-control col-lg" name="e_hire_date" id="e_hire_date" min="2004-04-16" max="<?= date('Y-m-d'); ?>">                                    
+                                    <?= isset($validation) ? '<small class="text-danger">' . $validation->getError('e_hire_date') . '</small>' : '' ?>
                                 </div>
                             </div>
                         </div>

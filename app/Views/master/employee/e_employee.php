@@ -17,7 +17,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-3">
         <div class="card rounded-0 shadow" style="width: 100%; height: 100%">
-          <img src="<?= site_url('images/pp/' . $employee['image']); ?>" class="card-img-top w-75 mx-auto pt-3">
+          <img src="<?= site_url('uploads/employees/' . $employee['image']); ?>" class="card-img-top w-75 mx-auto pt-3">
           <div class="card-body mt-3">
             <label for="image">Change Employee Image</label>
             <input type="file" name="image" id="image" class="mt-2">
