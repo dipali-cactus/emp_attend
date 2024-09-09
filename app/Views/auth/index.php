@@ -22,7 +22,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form class="user" method="post" action="<?= base_url('test'); ?>">
+                <form class="user" method="post" action="<?= base_url('login'); ?>">
                   <div class="form-group mt-4">
                     <input type="text" class="form-control form-control-user" name="username" placeholder="Username (example: CDM023)">
                     <?php if(isset($validation) && $validation->hasError('username')): ?>

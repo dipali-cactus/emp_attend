@@ -41,8 +41,7 @@ class Admin extends BaseController
 
     // Dashboard
     public function index()
-    {
-      
+    {      
         // Execute queries
         $db = \Config\Database::connect();
 

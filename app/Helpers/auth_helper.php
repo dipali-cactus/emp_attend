@@ -13,7 +13,7 @@ function isUserLoggedIn()
 {
     $session = session();
 
-    if (!$session->has('username') || !$session->get('username') && (!$session->has('role_id') || $session->get('username') == 2)) {
+    if (!$session->has('username') || !$session->get('username') && (!$session->has('role_id') || $session->get('role_id') == 2)) {
         return redirect()->to('/login')->send();
     }
     return null;
@@ -24,7 +24,8 @@ function isAdminloggedin(){
     $session = session();
 
     if ($session->has('role_id') && $session->get('role_id') !== 1) {    
-        return redirect()->to('/login')->send();
+        //return redirect()->to('/login')->send();
+        //echo "Not admin please do login ";exit;
     }
 
     return null;

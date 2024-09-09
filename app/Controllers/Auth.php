@@ -35,17 +35,27 @@ class Auth extends BaseController
             'username' => 'required|trim',
             'password' => 'required|trim|min_length[6]'
         ]);
+        
+        if (service('request')->getMethod() === 'post' && $this->formValidation->withRequest($this->request)->run()) {
+            $this->login();
 
-        if (!$this->formValidation->withRequest($this->request)->run()) {
+            if ($this->session->get('username')) {
+                switch ($this->session->get('role_id')) {
+                    case 1:
+                        return redirect()->to('/admin');
+                    case 2:
+                        return redirect()->to('/profile');
+                }
+            }    
+        }
+        else{
             echo view('templates/auth_header', $data);
             echo view('auth/index');
             echo view('templates/auth_footer');
-        } else {
-            $this->_login();
         }
     }
 
-    public function _login()
+    public function login()
     {        
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -64,12 +74,7 @@ class Auth extends BaseController
                 $data['role_id'] = $user['role_id'];
 
                 $this->session->set($data);
-                switch ($user['role_id']) {
-                    case 1:
-                        return redirect()->to('/admin');    
-                    case 2:
-                        return redirect()->to('/profile');
-                }
+                return;               
             } else {
                 $this->session->setFlashdata('message', '<div class="alert alert-danger" role="alert">Wrong password!</div>');
                 return redirect()->to('/auth');
